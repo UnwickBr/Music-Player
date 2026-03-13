@@ -39,6 +39,7 @@ let analyser;
 let sourceNode;
 let frequencyData;
 let animationFrameId;
+let waveformReady = false;
 
 function loadTrack(index) {
   const track = playlist[index];
@@ -127,8 +128,10 @@ function updateLoveTimer() {
 function resizeWaveCanvas() {
   const ratio = window.devicePixelRatio || 1;
   const rect = waveCanvas.getBoundingClientRect();
-  waveCanvas.width = rect.width * ratio;
-  waveCanvas.height = rect.height * ratio;
+  const width = Math.max(rect.width, 10);
+  const height = Math.max(rect.height, 10);
+  waveCanvas.width = width * ratio;
+  waveCanvas.height = height * ratio;
   waveContext.setTransform(1, 0, 0, 1, 0, 0);
   waveContext.scale(ratio, ratio);
 }
@@ -156,7 +159,12 @@ function drawIdleWave(width, height) {
 
 function setupWaveform() {
   if (!audioContext) {
-    audioContext = new window.AudioContext();
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) {
+      return;
+    }
+
+    audioContext = new AudioContextClass();
     analyser = audioContext.createAnalyser();
     analyser.fftSize = 128;
     analyser.smoothingTimeConstant = 0.82;
@@ -164,9 +172,10 @@ function setupWaveform() {
     sourceNode.connect(analyser);
     analyser.connect(audioContext.destination);
     frequencyData = new Uint8Array(analyser.frequencyBinCount);
+    waveformReady = true;
   }
 
-  if (audioContext.state === 'suspended') {
+  if (audioContext && audioContext.state === 'suspended') {
     audioContext.resume();
   }
 }
@@ -175,7 +184,7 @@ function drawWaveform() {
   const width = waveCanvas.clientWidth;
   const height = waveCanvas.clientHeight;
 
-  if (!analyser || audio.paused) {
+  if (!waveformReady || !analyser || audio.paused) {
     drawIdleWave(width, height);
     animationFrameId = null;
     return;
@@ -260,6 +269,8 @@ function prevTrack() {
 playBtn.addEventListener('click', togglePlay);
 prevBtn.addEventListener('click', prevTrack);
 nextBtn.addEventListener('click', nextTrack);
+document.addEventListener('touchstart', setupWaveform, { once: true, passive: true });
+document.addEventListener('pointerdown', setupWaveform, { once: true, passive: true });
 
 loopBtn.addEventListener('click', () => {
   audio.loop = !audio.loop;
@@ -304,6 +315,14 @@ window.addEventListener('resize', () => {
   if (!animationFrameId) {
     drawIdleWave(waveCanvas.clientWidth, waveCanvas.clientHeight);
   }
+});
+window.addEventListener('load', () => {
+  resizeWaveCanvas();
+  drawIdleWave(waveCanvas.clientWidth, waveCanvas.clientHeight);
+  window.setTimeout(() => {
+    resizeWaveCanvas();
+    drawIdleWave(waveCanvas.clientWidth, waveCanvas.clientHeight);
+  }, 250);
 });
 
 loadTrack(currentIndex);
