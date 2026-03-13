@@ -19,6 +19,8 @@ const hoursEl = document.getElementById('hours');
 const minutesEl = document.getElementById('minutes');
 const secondsEl = document.getElementById('seconds');
 const millisecondsEl = document.getElementById('milliseconds');
+const waveCanvas = document.getElementById('wave-canvas');
+const waveContext = waveCanvas.getContext('2d');
 
 const startDate = new Date(2025, 5, 7, 0, 0, 0, 0);
 
@@ -32,6 +34,11 @@ const playlist = [
 
 let currentIndex = 0;
 let shuffle = false;
+let audioContext;
+let analyser;
+let sourceNode;
+let frequencyData;
+let animationFrameId;
 
 function loadTrack(index) {
   const track = playlist[index];
@@ -117,9 +124,93 @@ function updateLoveTimer() {
   millisecondsEl.textContent = pad(diff.milliseconds, 3);
 }
 
+function resizeWaveCanvas() {
+  const ratio = window.devicePixelRatio || 1;
+  const rect = waveCanvas.getBoundingClientRect();
+  waveCanvas.width = rect.width * ratio;
+  waveCanvas.height = rect.height * ratio;
+  waveContext.setTransform(1, 0, 0, 1, 0, 0);
+  waveContext.scale(ratio, ratio);
+}
+
+function drawIdleWave(width, height) {
+  waveContext.clearRect(0, 0, width, height);
+  const bars = 24;
+  const gap = 4;
+  const barWidth = (width - gap * (bars - 1)) / bars;
+  const centerY = height / 2;
+
+  for (let index = 0; index < bars; index += 1) {
+    const x = index * (barWidth + gap);
+    const distanceFromCenter = Math.abs(index - (bars - 1) / 2);
+    const centerBias = 1 - distanceFromCenter / ((bars - 1) / 2);
+    const barHeight = 8 + centerBias * 16;
+    const y = centerY - barHeight / 2;
+    const gradient = waveContext.createLinearGradient(0, y, 0, y + barHeight);
+    gradient.addColorStop(0, 'rgba(102, 217, 255, 0.3)');
+    gradient.addColorStop(1, 'rgba(255, 93, 168, 0.22)');
+    waveContext.fillStyle = gradient;
+    waveContext.fillRect(x, y, barWidth, barHeight);
+  }
+}
+
+function setupWaveform() {
+  if (!audioContext) {
+    audioContext = new window.AudioContext();
+    analyser = audioContext.createAnalyser();
+    analyser.fftSize = 128;
+    analyser.smoothingTimeConstant = 0.82;
+    sourceNode = audioContext.createMediaElementSource(audio);
+    sourceNode.connect(analyser);
+    analyser.connect(audioContext.destination);
+    frequencyData = new Uint8Array(analyser.frequencyBinCount);
+  }
+
+  if (audioContext.state === 'suspended') {
+    audioContext.resume();
+  }
+}
+
+function drawWaveform() {
+  const width = waveCanvas.clientWidth;
+  const height = waveCanvas.clientHeight;
+
+  if (!analyser || audio.paused) {
+    drawIdleWave(width, height);
+    animationFrameId = null;
+    return;
+  }
+
+  analyser.getByteFrequencyData(frequencyData);
+  waveContext.clearRect(0, 0, width, height);
+
+  const bars = frequencyData.length;
+  const gap = 3;
+  const barWidth = (width - gap * (bars - 1)) / bars;
+
+  for (let index = 0; index < bars; index += 1) {
+    const mirroredIndex = index < bars / 2 ? index : bars - 1 - index;
+    const value = frequencyData[mirroredIndex] / 255;
+    const distanceFromCenter = Math.abs(index - (bars - 1) / 2);
+    const centerBias = 1 - distanceFromCenter / ((bars - 1) / 2);
+    const barHeight = Math.max(8, value * height * (0.4 + centerBias * 0.7));
+    const x = index * (barWidth + gap);
+    const y = (height - barHeight) / 2;
+    const gradient = waveContext.createLinearGradient(0, y, 0, y + barHeight);
+    gradient.addColorStop(0, 'rgba(102, 217, 255, 0.95)');
+    gradient.addColorStop(0.5, 'rgba(159, 115, 255, 0.88)');
+    gradient.addColorStop(1, 'rgba(255, 93, 168, 0.92)');
+    waveContext.fillStyle = gradient;
+    waveContext.fillRect(x, y, barWidth, barHeight);
+  }
+
+  animationFrameId = window.requestAnimationFrame(drawWaveform);
+}
+
 async function togglePlay() {
   if (audio.paused) {
     try {
+      setupWaveform();
       await audio.play();
     } catch (error) {
       console.error('Falha ao tocar audio:', error);
@@ -186,15 +277,38 @@ volume.addEventListener('input', (event) => {
 
 progressTrack.addEventListener('click', seek);
 
-audio.addEventListener('play', updatePlayUI);
-audio.addEventListener('pause', updatePlayUI);
+audio.addEventListener('play', () => {
+  updatePlayUI();
+  if (!animationFrameId) {
+    drawWaveform();
+  }
+});
+
+audio.addEventListener('pause', () => {
+  updatePlayUI();
+  if (animationFrameId) {
+    window.cancelAnimationFrame(animationFrameId);
+    animationFrameId = null;
+  }
+  drawIdleWave(waveCanvas.clientWidth, waveCanvas.clientHeight);
+});
+
 audio.addEventListener('timeupdate', updateProgress);
 audio.addEventListener('loadedmetadata', () => {
   durationEl.textContent = formatTime(audio.duration);
 });
 audio.addEventListener('ended', nextTrack);
 
+window.addEventListener('resize', () => {
+  resizeWaveCanvas();
+  if (!animationFrameId) {
+    drawIdleWave(waveCanvas.clientWidth, waveCanvas.clientHeight);
+  }
+});
+
 loadTrack(currentIndex);
 audio.volume = Number(volume.value);
+resizeWaveCanvas();
+drawIdleWave(waveCanvas.clientWidth, waveCanvas.clientHeight);
 updateLoveTimer();
 setInterval(updateLoveTimer, 50);
