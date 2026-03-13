@@ -391,10 +391,22 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.wave-canvas {
-  display: block;
-  width: 100%;
+.wave-bars {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   height: 58px;
+}
+
+.wave-bar {
+  width: 8px;
+  height: 14px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(102, 217, 255, 0.95), rgba(255, 93, 168, 0.85));
+  box-shadow: 0 0 10px rgba(159, 115, 255, 0.12);
+  transform-origin: center;
+  transition: height 90ms linear;
 }
 
 .vinyl {

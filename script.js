@@ -19,8 +19,7 @@ const hoursEl = document.getElementById('hours');
 const minutesEl = document.getElementById('minutes');
 const secondsEl = document.getElementById('seconds');
 const millisecondsEl = document.getElementById('milliseconds');
-const waveCanvas = document.getElementById('wave-canvas');
-const waveContext = waveCanvas.getContext('2d');
+const waveBars = Array.from(document.querySelectorAll('.wave-bar'));
 
 const startDate = new Date(2025, 5, 7, 0, 0, 0, 0);
 
@@ -125,36 +124,14 @@ function updateLoveTimer() {
   millisecondsEl.textContent = pad(diff.milliseconds, 3);
 }
 
-function resizeWaveCanvas() {
-  const ratio = window.devicePixelRatio || 1;
-  const rect = waveCanvas.getBoundingClientRect();
-  const width = Math.max(rect.width, 10);
-  const height = Math.max(rect.height, 10);
-  waveCanvas.width = width * ratio;
-  waveCanvas.height = height * ratio;
-  waveContext.setTransform(1, 0, 0, 1, 0, 0);
-  waveContext.scale(ratio, ratio);
-}
-
-function drawIdleWave(width, height) {
-  waveContext.clearRect(0, 0, width, height);
-  const bars = 24;
-  const gap = 4;
-  const barWidth = (width - gap * (bars - 1)) / bars;
-  const centerY = height / 2;
-
-  for (let index = 0; index < bars; index += 1) {
-    const x = index * (barWidth + gap);
-    const distanceFromCenter = Math.abs(index - (bars - 1) / 2);
-    const centerBias = 1 - distanceFromCenter / ((bars - 1) / 2);
-    const barHeight = 8 + centerBias * 16;
-    const y = centerY - barHeight / 2;
-    const gradient = waveContext.createLinearGradient(0, y, 0, y + barHeight);
-    gradient.addColorStop(0, 'rgba(102, 217, 255, 0.3)');
-    gradient.addColorStop(1, 'rgba(255, 93, 168, 0.22)');
-    waveContext.fillStyle = gradient;
-    waveContext.fillRect(x, y, barWidth, barHeight);
-  }
+function paintIdleWave() {
+  const total = waveBars.length;
+  waveBars.forEach((bar, index) => {
+    const distanceFromCenter = Math.abs(index - (total - 1) / 2);
+    const centerBias = 1 - distanceFromCenter / ((total - 1) / 2);
+    bar.style.height = `${12 + centerBias * 18}px`;
+    bar.style.opacity = `${0.35 + centerBias * 0.55}`;
+  });
 }
 
 function setupWaveform() {
@@ -166,7 +143,7 @@ function setupWaveform() {
 
     audioContext = new AudioContextClass();
     analyser = audioContext.createAnalyser();
-    analyser.fftSize = 128;
+    analyser.fftSize = 64;
     analyser.smoothingTimeConstant = 0.82;
     sourceNode = audioContext.createMediaElementSource(audio);
     sourceNode.connect(analyser);
@@ -181,37 +158,25 @@ function setupWaveform() {
 }
 
 function drawWaveform() {
-  const width = waveCanvas.clientWidth;
-  const height = waveCanvas.clientHeight;
-
   if (!waveformReady || !analyser || audio.paused) {
-    drawIdleWave(width, height);
+    paintIdleWave();
     animationFrameId = null;
     return;
   }
 
   analyser.getByteFrequencyData(frequencyData);
-  waveContext.clearRect(0, 0, width, height);
+  const totalBars = waveBars.length;
 
-  const bars = frequencyData.length;
-  const gap = 3;
-  const barWidth = (width - gap * (bars - 1)) / bars;
-
-  for (let index = 0; index < bars; index += 1) {
-    const mirroredIndex = index < bars / 2 ? index : bars - 1 - index;
-    const value = frequencyData[mirroredIndex] / 255;
-    const distanceFromCenter = Math.abs(index - (bars - 1) / 2);
-    const centerBias = 1 - distanceFromCenter / ((bars - 1) / 2);
-    const barHeight = Math.max(8, value * height * (0.4 + centerBias * 0.7));
-    const x = index * (barWidth + gap);
-    const y = (height - barHeight) / 2;
-    const gradient = waveContext.createLinearGradient(0, y, 0, y + barHeight);
-    gradient.addColorStop(0, 'rgba(102, 217, 255, 0.95)');
-    gradient.addColorStop(0.5, 'rgba(159, 115, 255, 0.88)');
-    gradient.addColorStop(1, 'rgba(255, 93, 168, 0.92)');
-    waveContext.fillStyle = gradient;
-    waveContext.fillRect(x, y, barWidth, barHeight);
-  }
+  waveBars.forEach((bar, index) => {
+    const mirroredIndex = index < totalBars / 2 ? index : totalBars - 1 - index;
+    const sourceIndex = Math.min(mirroredIndex, frequencyData.length - 1);
+    const value = frequencyData[sourceIndex] / 255;
+    const distanceFromCenter = Math.abs(index - (totalBars - 1) / 2);
+    const centerBias = 1 - distanceFromCenter / ((totalBars - 1) / 2);
+    const height = Math.max(10, 10 + value * 18 + centerBias * 26);
+    bar.style.height = `${height}px`;
+    bar.style.opacity = `${0.45 + Math.min(0.5, value * 0.6)}`;
+  });
 
   animationFrameId = window.requestAnimationFrame(drawWaveform);
 }
@@ -301,7 +266,7 @@ audio.addEventListener('pause', () => {
     window.cancelAnimationFrame(animationFrameId);
     animationFrameId = null;
   }
-  drawIdleWave(waveCanvas.clientWidth, waveCanvas.clientHeight);
+  paintIdleWave();
 });
 
 audio.addEventListener('timeupdate', updateProgress);
@@ -310,24 +275,8 @@ audio.addEventListener('loadedmetadata', () => {
 });
 audio.addEventListener('ended', nextTrack);
 
-window.addEventListener('resize', () => {
-  resizeWaveCanvas();
-  if (!animationFrameId) {
-    drawIdleWave(waveCanvas.clientWidth, waveCanvas.clientHeight);
-  }
-});
-window.addEventListener('load', () => {
-  resizeWaveCanvas();
-  drawIdleWave(waveCanvas.clientWidth, waveCanvas.clientHeight);
-  window.setTimeout(() => {
-    resizeWaveCanvas();
-    drawIdleWave(waveCanvas.clientWidth, waveCanvas.clientHeight);
-  }, 250);
-});
-
 loadTrack(currentIndex);
 audio.volume = Number(volume.value);
-resizeWaveCanvas();
-drawIdleWave(waveCanvas.clientWidth, waveCanvas.clientHeight);
+paintIdleWave();
 updateLoveTimer();
 setInterval(updateLoveTimer, 50);
