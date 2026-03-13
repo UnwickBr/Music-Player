@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sky Player</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="scene">
+    <div class="stars"></div>
+    <div class="stars stars-mid"></div>
+    <div class="stars stars-near"></div>
+    <div class="shooting-stars" aria-hidden="true">
+      <span class="shooting-star"></span>
+      <span class="shooting-star"></span>
+      <span class="shooting-star"></span>
+    </div>
+    <div class="glow glow-left"></div>
+    <div class="glow glow-right"></div>
+
+    <div class="player-stack">
+      <section class="player-shell">
+        <div class="player-header">
+          <span class="muted">Device</span>
+          <span class="status-dot"></span>
+        </div>
+
+        <div class="album-wrap">
+          <div class="album-shadow"></div>
+          <div
+            id="cover"
+            class="album-cover album-art"
+            role="img"
+            aria-label="Capa do album"
+          >
+            <div class="album-carousel">
+              <div class="album-slide">
+                <img src="Image.jpg" alt="Capa 1" />
+              </div>
+              <div class="album-slide">
+                <img src="Image2.jpg" alt="Capa 2" />
+              </div>
+              <div class="album-slide">
+                <img src="Image3.jpg" alt="Capa 3" />
+              </div>
+              <div class="album-slide">
+                <img src="Image4.jpg" alt="Capa 4" />
+              </div>
+              <div class="album-slide">
+                <img src="Image.jpg" alt="Capa 1 repetida" />
+              </div>
+            </div>
+          </div>
+          <div class="vinyl" id="vinyl"></div>
+        </div>
+
+        <div class="track-meta">
+          <span class="muted">Now Playing</span>
+          <h1 id="track-title">Blue - Young Kai</h1>
+          <p id="track-artist">Young Kai</p>
+        </div>
+
+        <div class="timeline">
+          <span id="current-time">0:00</span>
+          <div class="progress-track" id="progress-track" aria-label="Barra de progresso">
+            <div class="progress-fill" id="progress-fill"></div>
+            <div class="progress-thumb" id="progress-thumb"></div>
+          </div>
+          <span id="duration">0:00</span>
+        </div>
+
+        <div class="controls">
+          <button class="icon-button" id="shuffle-btn" title="Aleatorio">⤮</button>
+          <button class="icon-button" id="prev-btn" title="Anterior">⏮</button>
+          <button class="play-button" id="play-btn" title="Play/Pause">▶</button>
+          <button class="icon-button" id="next-btn" title="Proxima">⏭</button>
+          <button class="icon-button active" id="loop-btn" title="Loop">↻</button>
+        </div>
+
+        <div class="bottom-bar">
+          <div class="volume-wrap">
+            <span>🔊</span>
+            <input id="volume" type="range" min="0" max="1" step="0.01" value="0.75" />
+          </div>
+          <button class="devices">Devices Available</button>
+        </div>
+      </section>
+
+      <section class="love-timer" aria-live="polite">
+        <p class="timer-label">Desde 07/06/2025</p>
+        <div class="timer-grid">
+          <div class="timer-unit"><span id="years">0</span><small>anos</small></div>
+          <div class="timer-unit"><span id="months">00</span><small>meses</small></div>
+          <div class="timer-unit"><span id="days">00</span><small>dias</small></div>
+          <div class="timer-unit"><span id="hours">00</span><small>horas</small></div>
+          <div class="timer-unit"><span id="minutes">00</span><small>min</small></div>
+          <div class="timer-unit"><span id="seconds">00</span><small>seg</small></div>
+          <div class="timer-unit"><span id="milliseconds">000</span><small>ms</small></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <audio id="audio"></audio>
+
+  <script src="script.js"></script>
+</body>
+</html>
