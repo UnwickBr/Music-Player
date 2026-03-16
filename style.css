@@ -3,7 +3,7 @@
 }
 
 :root {
-  --card: rgba(7, 8, 14, 0.86);
+  --card: rgba(7, 8, 14, 0.7);
   --card-border: rgba(255, 255, 255, 0.08);
   --text: #f5f7ff;
   --muted: #9aa4c7;
@@ -713,6 +713,14 @@ button:active {
   font-weight: 700;
   line-height: 1.4;
   transition: color 180ms ease, opacity 180ms ease, transform 180ms ease;
+}
+
+.lyric-line.is-clickable {
+  cursor: pointer;
+}
+
+.lyric-line.is-clickable:hover {
+  color: rgba(255, 255, 255, 0.78);
 }
 
 .lyric-line.is-active {

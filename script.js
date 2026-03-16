@@ -14,6 +14,7 @@ const vinyl = document.getElementById('vinyl');
 const cover = document.getElementById('cover');
 const queueList = document.getElementById('queue-list');
 const lyricsBody = document.getElementById('lyrics-body');
+const translationBody = document.getElementById('translation-body');
 const tabButtons = Array.from(document.querySelectorAll('.tab-button'));
 const tabPanels = Array.from(document.querySelectorAll('.tab-panel'));
 const yearsEl = document.getElementById('years');
@@ -78,6 +79,52 @@ const aThousandYearsLrc = `[ti:A Thousand Years]
 
 [02:59.14]--- www.LRCgenerator.com ---`;
 
+const aThousandYearsTranslationLrc = `[ti:A Thousand Years]
+[ar:John Michael Howell]
+[la:PT-BR]
+
+[00:00.75]Eu era uma crianca procurando amor, cheio de esperanca por dentro
+[00:12.40]Mas o tempo nunca foi gentil comigo, meu coracao ficou frio como gelo
+[00:16.69]Sem sorte nenhuma, achei que estava preso, sozinho por toda a minha vida
+[00:20.88]Mas eu provei que estava errado no momento em que olhei nos seus olhos
+
+[00:25.03]E verdade, ate eu estar no tumulo
+[00:29.08]Meu bem, eu vou te amar
+
+[00:31.44]Por mil anos, querida
+[00:35.51]O tempo nao e nada quando estou aqui com voce, oh-oh-ooh
+[00:40.93]Todos os meus medos, lagrimas e lembrancas desaparecem com voce, oh-oh-ooh
+[00:49.33]Ate eu virar poeira, vou carregar esse amor, minha querida
+[00:56.46]Por mil anos
+
+[01:06.28]Vi bem cedo que algo vai florescer, como uma flor de lotus
+[01:11.07]A lua mais azul logo vai virar sol e se transformar em hora dourada
+[01:15.24]Horas e dias, perdido no seu olhar, perdendo a nocao do tempo
+[01:19.21]Aprendendo a desacelerar, a valorizar as nossas vidas
+
+[01:23.39]So saiba, ate eu estar no tumulo
+[01:27.90]Meu bem, eu vou te amar
+
+[01:33.00]Por mil anos, querida
+[01:34.56]O tempo nao e nada quando estou aqui com voce, oh-oh-ooh
+[01:39.53]Todos os meus medos, lagrimas e lembrancas desaparecem com voce, oh-oh-ooh
+[01:48.10]Ate eu virar poeira, vou carregar esse amor, minha querida
+[01:55.12]Por mil anos
+
+[02:01.02]Oh-ooh, ayy
+[02:05.94]Coloque tudo em chamas, deixe arder ainda mais forte
+[02:09.67]O amor e uma chama, e esta dancando ao som de Davi tocando uma lira
+[02:13.55]Coloque tudo em chamas, deixe a fumaca subir mais alto
+
+[02:18.32]Porque, meu bem, eu vou te amar
+
+[02:20.43]Por mil anos, querida
+[02:24.40]O tempo nao e nada quando estou aqui com voce, oh-oh-ooh
+[02:29.69]Todos os meus medos, lagrimas e lembrancas desaparecem com voce, oh-oh-ooh
+[02:38.41]Ate o ar sair dos meus pulmoes, a cada respiracao vou te manter por perto
+[02:46.83]Ate eu virar poeira, vou carregar esse amor, minha querida
+[02:53.96]Por mil anos`;
+
 function parseLrc(lrcText) {
   return lrcText
     .split('\n')
@@ -112,7 +159,8 @@ const playlist = [
     plays: '9.5M plays',
     src: 'blue.mp3',
     cover: 'Image.jpg',
-    lyrics: []
+    lyrics: [],
+    translation: []
   },
   {
     title: 'A Thousand Years',
@@ -120,7 +168,8 @@ const playlist = [
     plays: '1.2B plays',
     src: 'A Thousand Years.mp3',
     cover: 'Image2.jpg',
-    lyrics: parseLrc(aThousandYearsLrc)
+    lyrics: parseLrc(aThousandYearsLrc),
+    translation: parseLrc(aThousandYearsTranslationLrc)
   }
 ];
 
@@ -133,7 +182,10 @@ let sourceNode;
 let frequencyData;
 let animationFrameId;
 let waveformReady = false;
-let activeLyricIndex = -1;
+const syncedPanelState = {
+  lyrics: -1,
+  translation: -1
+};
 
 function renderQueue() {
   if (!queueList) {
@@ -186,38 +238,56 @@ function renderQueue() {
   });
 }
 
-function renderLyrics() {
-  if (!lyricsBody) {
+function renderTimedPanel(container, lines, emptyMessage) {
+  if (!container) {
     return;
   }
 
-  const track = playlist[currentIndex];
-  const lines = Array.isArray(track.lyrics) ? track.lyrics.filter(Boolean) : [];
   const plainLines = lines.map((line) => (typeof line === 'string' ? line : line.text)).filter(Boolean);
   const timedLines = lines.filter((line) => typeof line === 'object' && line !== null && typeof line.time === 'number');
 
   if (!plainLines.length) {
-    lyricsBody.innerHTML = `
-      <p class="panel-placeholder">Letra ainda nao adicionada para <strong>${track.title}</strong>.</p>
-      <p class="panel-note">Voce pode colar os versos direto no objeto da musica em <code>script.js</code>, no campo <code>lyrics</code>.</p>
-    `;
+    container.innerHTML = emptyMessage;
     return;
   }
 
   if (timedLines.length) {
-    lyricsBody.innerHTML = `
+    container.innerHTML = `
       <div class="lyrics-track">
         ${timedLines
-          .map((line, index) => `<p class="lyric-line" data-lyric-index="${index}">${line.text}</p>`)
+          .map((line, index) => `<p class="lyric-line is-clickable" data-lyric-index="${index}" data-lyric-time="${line.time}">${line.text}</p>`)
           .join('')}
       </div>
     `;
-    activeLyricIndex = -1;
-    updateSyncedLyrics(true);
+
+    Array.from(container.querySelectorAll('.lyric-line')).forEach((lineEl) => {
+      lineEl.addEventListener('click', async () => {
+        const targetTime = Number(lineEl.dataset.lyricTime);
+        if (!Number.isFinite(targetTime)) {
+          return;
+        }
+
+        audio.currentTime = targetTime;
+        updateSyncedLyrics(true);
+        updateSyncedTranslation(true);
+
+        if (!audio.paused) {
+          return;
+        }
+
+        try {
+          setupWaveform();
+          await audio.play();
+        } catch (error) {
+          console.error('Falha ao tocar audio:', error);
+        }
+      });
+    });
+
     return;
   }
 
-  lyricsBody.innerHTML = `
+  container.innerHTML = `
     <div class="lyrics-track">
       ${plainLines
         .map((line) => `<p class="lyric-line is-static">${line}</p>`)
@@ -226,13 +296,49 @@ function renderLyrics() {
   `;
 }
 
-function updateSyncedLyrics(forceScroll = false) {
-  if (!lyricsBody) {
+function renderLyrics() {
+  const track = playlist[currentIndex];
+  const lines = Array.isArray(track.lyrics) ? track.lyrics.filter(Boolean) : [];
+
+  renderTimedPanel(
+    lyricsBody,
+    lines,
+    `
+      <p class="panel-placeholder">Letra ainda nao adicionada para <strong>${track.title}</strong>.</p>
+      <p class="panel-note">Voce pode colar os versos direto no objeto da musica em <code>script.js</code>, no campo <code>lyrics</code>.</p>
+    `
+  );
+
+  syncedPanelState.lyrics = -1;
+  updateSyncedPanel('lyrics', true);
+}
+
+function renderTranslation() {
+  const track = playlist[currentIndex];
+  const lines = Array.isArray(track.translation) ? track.translation.filter(Boolean) : [];
+
+  renderTimedPanel(
+    translationBody,
+    lines,
+    `
+      <p class="panel-placeholder">Traducao ainda nao adicionada para <strong>${track.title}</strong>.</p>
+      <p class="panel-note">Voce pode usar as mesmas linhas do <code>.lrc</code> e trocar o texto, mantendo os timestamps.</p>
+    `
+  );
+
+  syncedPanelState.translation = -1;
+  updateSyncedPanel('translation', true);
+}
+
+function updateSyncedPanel(panelName, forceScroll = false) {
+  const container = panelName === 'translation' ? translationBody : lyricsBody;
+  if (!container) {
     return;
   }
 
   const track = playlist[currentIndex];
-  const lines = Array.isArray(track.lyrics) ? track.lyrics.filter((line) => typeof line === 'object' && line !== null && typeof line.time === 'number') : [];
+  const sourceLines = panelName === 'translation' ? track.translation : track.lyrics;
+  const lines = Array.isArray(sourceLines) ? sourceLines.filter((line) => typeof line === 'object' && line !== null && typeof line.time === 'number') : [];
 
   if (!lines.length) {
     return;
@@ -248,41 +354,53 @@ function updateSyncedLyrics(forceScroll = false) {
     }
   }
 
-  const lyricEls = Array.from(lyricsBody.querySelectorAll('.lyric-line'));
-  const activeChanged = nextActiveIndex !== activeLyricIndex;
-  activeLyricIndex = nextActiveIndex;
+  const lyricEls = Array.from(container.querySelectorAll('.lyric-line'));
+  const activeChanged = nextActiveIndex !== syncedPanelState[panelName];
+  syncedPanelState[panelName] = nextActiveIndex;
 
   lyricEls.forEach((lineEl, index) => {
-    const distance = activeLyricIndex === -1 ? Infinity : Math.abs(index - activeLyricIndex);
-    lineEl.classList.toggle('is-active', index === activeLyricIndex);
+    const distance = syncedPanelState[panelName] === -1 ? Infinity : Math.abs(index - syncedPanelState[panelName]);
+    lineEl.classList.toggle('is-active', index === syncedPanelState[panelName]);
     lineEl.classList.toggle('is-near', distance === 1);
     lineEl.classList.toggle('is-far', distance >= 2);
   });
 
-  if (activeLyricIndex === -1) {
+  if (syncedPanelState[panelName] === -1) {
     if (forceScroll) {
-      lyricsBody.scrollTop = 0;
+      const trackEl = container.querySelector('.lyrics-track');
+      if (trackEl) {
+        trackEl.classList.add('no-transition');
+        trackEl.style.transform = 'translateY(0)';
+      }
     }
     return;
   }
 
-  const activeLine = lyricEls[activeLyricIndex];
-  if (activeLine && (forceScroll || (activeChanged && activeTab === 'lyrics'))) {
-    scrollLyricsToLine(activeLine, forceScroll);
+  const activeLine = lyricEls[syncedPanelState[panelName]];
+  if (activeLine && (forceScroll || (activeChanged && activeTab === panelName))) {
+    scrollPanelToLine(container, activeLine, forceScroll);
   }
 }
 
-function scrollLyricsToLine(activeLine, immediate = false) {
-  if (!lyricsBody || !activeLine) {
+function updateSyncedLyrics(forceScroll = false) {
+  updateSyncedPanel('lyrics', forceScroll);
+}
+
+function updateSyncedTranslation(forceScroll = false) {
+  updateSyncedPanel('translation', forceScroll);
+}
+
+function scrollPanelToLine(container, activeLine, immediate = false) {
+  if (!container || !activeLine) {
     return;
   }
 
-  const track = lyricsBody.querySelector('.lyrics-track');
+  const track = container.querySelector('.lyrics-track');
   if (!track) {
     return;
   }
 
-  const viewportHeight = lyricsBody.clientHeight;
+  const viewportHeight = container.clientHeight;
   const trackHeight = track.scrollHeight;
   const activeCenter = activeLine.offsetTop + (activeLine.clientHeight / 2);
   const minTranslate = Math.min(0, viewportHeight - trackHeight);
@@ -308,6 +426,10 @@ function setActiveTab(tabName) {
   if (activeTab === 'lyrics') {
     updateSyncedLyrics(true);
   }
+
+  if (activeTab === 'translation') {
+    updateSyncedTranslation(true);
+  }
 }
 
 function loadTrack(index) {
@@ -323,6 +445,7 @@ function loadTrack(index) {
   resetProgress();
   renderQueue();
   renderLyrics();
+  renderTranslation();
 }
 
 function resetProgress() {
@@ -490,6 +613,7 @@ function updateProgress() {
   progressThumb.style.left = `${percent}%`;
   currentTimeEl.textContent = formatTime(audio.currentTime);
   updateSyncedLyrics();
+  updateSyncedTranslation();
 }
 
 function seek(event) {
@@ -498,6 +622,7 @@ function seek(event) {
   const ratio = Math.max(0, Math.min(1, clickX / rect.width));
   audio.currentTime = ratio * audio.duration;
   updateSyncedLyrics(true);
+  updateSyncedTranslation(true);
 }
 
 async function nextTrack() {
