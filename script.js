@@ -274,7 +274,7 @@ const playlist = [
     artist: 'Young Kai',
     plays: '9.5M plays',
     src: 'blue.mp3',
-    cover: 'Image.jpg',
+    cover: 'blue.jpg',
     lyrics: parseLrc(blueLrc),
     translation: parseLrc(blueTranslationLrc)
   },
@@ -283,7 +283,7 @@ const playlist = [
     artist: 'John Michael Howell, JVKE e ZVC',
     plays: '1.2B plays',
     src: 'A Thousand Years.mp3',
-    cover: 'Image2.jpg',
+    cover: 'A Thousand Years.jpg',
     lyrics: parseLrc(aThousandYearsLrc),
     translation: parseLrc(aThousandYearsTranslationLrc)
   }
