@@ -120,12 +120,41 @@
           <button class="icon-button active" id="loop-btn" title="Loop">↻</button>
         </div>
 
+        <div class="tabs-shell">
+          <nav class="player-tabs" aria-label="Secoes do player">
+            <button class="tab-button active" type="button" data-tab="queue">A seguir</button>
+            <button class="tab-button" type="button" data-tab="lyrics">Letras</button>
+            <button class="tab-button" type="button" data-tab="related">Relacionadas</button>
+          </nav>
+
+          <div class="tab-panel queue-panel active" id="panel-queue" aria-labelledby="queue-heading">
+            <div class="queue-header">
+              <h2 id="queue-heading">A seguir</h2>
+              <button class="devices">Devices Available</button>
+            </div>
+            <div class="queue-list" id="queue-list"></div>
+          </div>
+
+          <div class="tab-panel lyrics-panel" id="panel-lyrics" aria-labelledby="lyrics-heading">
+            <div class="panel-header">
+              <h2 id="lyrics-heading">Letras</h2>
+            </div>
+            <div class="lyrics-body" id="lyrics-body"></div>
+          </div>
+
+          <div class="tab-panel info-panel" id="panel-related" aria-labelledby="related-heading">
+            <div class="panel-header">
+              <h2 id="related-heading">Relacionadas</h2>
+            </div>
+            <p class="panel-placeholder">Depois eu posso transformar essa aba em sugestoes reais, mas a estrutura ja ficou pronta.</p>
+          </div>
+        </div>
+
         <div class="bottom-bar">
           <div class="volume-wrap">
             <span>🔊</span>
             <input id="volume" type="range" min="0" max="1" step="0.01" value="0.75" />
           </div>
-          <button class="devices">Devices Available</button>
         </div>
       </section>
 
