@@ -79,6 +79,72 @@ const aThousandYearsLrc = `[ti:A Thousand Years]
 
 [02:59.14]--- www.LRCgenerator.com ---`;
 
+const blueLrc = `[ti:blue]
+[ar:young aki]
+[la:EN]
+[re:LRCgenerator.com]
+[ve:4.00]
+
+[00:00.63]Your morning eyes, I could stare like watching stars
+[00:25.96]I could walk you by and I'll tell without a thought
+[00:32.32]You'd be mine, would you mind if I took your hand tonight?
+[00:39.89]Know you're all that I want, this life
+
+[00:47.35]I'll imagine we fell in love
+[00:50.62]I'll nap under moonlight skies with you
+[00:54.54]I think I'll picture us, you with the waves
+[00:58.18]The ocean's colors on your face
+[01:01.90]I'll leave my heart with your air
+[01:06.05]So let me fly with you
+[01:09.67]Will you be forever with me?
+
+[01:46.92]My love will always stay by you
+[01:52.39]I'll keep it safe, so don't you worry a thing
+[01:57.87]I'll tell you I love you more
+[02:01.44]It's stuck with you forever, so promise you won't let it go
+[02:08.28]I'll trust the Universe will always bring me to you
+
+[02:16.44]I'll imagine we fell in love
+[02:19.36]I'll nap under moonlight skies with you
+[02:23.23]I think I'll picture us, you with the waves
+[02:26.85]The ocean's colors on your face
+[02:30.62]I'll leave my heart with your air
+[02:34.74]So let me fly with you
+[02:38.46]Will you be forever with me?
+
+[02:47.54]--- www.LRCgenerator.com ---`;
+
+const blueTranslationLrc = `[ti:blue]
+[ar:young aki]
+[la:PT-BR]
+
+[00:00.63]Seus olhos de manha, eu poderia ficar olhando como quem observa as estrelas
+[00:25.96]Eu poderia caminhar ao seu lado e dizer tudo sem nem pensar
+[00:32.32]Voce seria minha, se importaria se eu segurasse sua mao esta noite?
+[00:39.89]Sei que voce e tudo o que eu quero nesta vida
+
+[00:47.35]Eu vou imaginar que nos apaixonamos
+[00:50.62]Vou cochilar com voce sob ceus iluminados pela lua
+[00:54.54]Acho que vou imaginar nos dois, voce junto das ondas
+[00:58.18]As cores do oceano no seu rosto
+[01:01.90]Vou deixar meu coracao no seu ar
+[01:06.05]Entao me deixa voar com voce
+[01:09.67]Voce vai ficar para sempre comigo?
+
+[01:46.92]Meu amor sempre vai permanecer ao seu lado
+[01:52.39]Vou mante-lo seguro, entao nao se preocupe com nada
+[01:57.87]Vou te dizer que eu te amo ainda mais
+[02:01.44]Isso ficou preso em voce para sempre, entao promete que nao vai deixar escapar
+[02:08.28]Vou confiar que o Universo sempre vai me trazer ate voce
+
+[02:16.44]Eu vou imaginar que nos apaixonamos
+[02:19.36]Vou cochilar com voce sob ceus iluminados pela lua
+[02:23.23]Acho que vou imaginar nos dois, voce junto das ondas
+[02:26.85]As cores do oceano no seu rosto
+[02:30.62]Vou deixar meu coracao no seu ar
+[02:34.74]Entao me deixa voar com voce
+[02:38.46]Voce vai ficar para sempre comigo?`;
+
 const aThousandYearsTranslationLrc = `[ti:A Thousand Years]
 [ar:John Michael Howell]
 [la:PT-BR]
@@ -159,8 +225,8 @@ const playlist = [
     plays: '9.5M plays',
     src: 'blue.mp3',
     cover: 'Image.jpg',
-    lyrics: [],
-    translation: []
+    lyrics: parseLrc(blueLrc),
+    translation: parseLrc(blueTranslationLrc)
   },
   {
     title: 'A Thousand Years',
@@ -186,6 +252,55 @@ const syncedPanelState = {
   lyrics: -1,
   translation: -1
 };
+const panelInteractionState = {
+  lyrics: {
+    autoScrolling: false,
+    idleTimer: null,
+    userScrolling: false
+  },
+  translation: {
+    autoScrolling: false,
+    idleTimer: null,
+    userScrolling: false
+  }
+};
+
+function getPanelContainer(panelName) {
+  return panelName === 'translation' ? translationBody : lyricsBody;
+}
+
+function schedulePanelResync(panelName) {
+  const panelState = panelInteractionState[panelName];
+  if (!panelState) {
+    return;
+  }
+
+  window.clearTimeout(panelState.idleTimer);
+  panelState.idleTimer = window.setTimeout(() => {
+    panelState.userScrolling = false;
+
+    if (activeTab === panelName) {
+      updateSyncedPanel(panelName);
+    }
+  }, 2000);
+}
+
+function registerPanelScroll(panelName) {
+  const container = getPanelContainer(panelName);
+  if (!container) {
+    return;
+  }
+
+  container.addEventListener('scroll', () => {
+    const panelState = panelInteractionState[panelName];
+    if (!panelState || panelState.autoScrolling) {
+      return;
+    }
+
+    panelState.userScrolling = true;
+    schedulePanelResync(panelName);
+  });
+}
 
 function renderQueue() {
   if (!queueList) {
@@ -331,7 +446,7 @@ function renderTranslation() {
 }
 
 function updateSyncedPanel(panelName, forceScroll = false) {
-  const container = panelName === 'translation' ? translationBody : lyricsBody;
+  const container = getPanelContainer(panelName);
   if (!container) {
     return;
   }
@@ -357,6 +472,7 @@ function updateSyncedPanel(panelName, forceScroll = false) {
   const lyricEls = Array.from(container.querySelectorAll('.lyric-line'));
   const activeChanged = nextActiveIndex !== syncedPanelState[panelName];
   syncedPanelState[panelName] = nextActiveIndex;
+  const panelState = panelInteractionState[panelName];
 
   lyricEls.forEach((lineEl, index) => {
     const distance = syncedPanelState[panelName] === -1 ? Infinity : Math.abs(index - syncedPanelState[panelName]);
@@ -367,18 +483,16 @@ function updateSyncedPanel(panelName, forceScroll = false) {
 
   if (syncedPanelState[panelName] === -1) {
     if (forceScroll) {
-      const trackEl = container.querySelector('.lyrics-track');
-      if (trackEl) {
-        trackEl.classList.add('no-transition');
-        trackEl.style.transform = 'translateY(0)';
-      }
+      container.scrollTo({ top: 0, behavior: 'auto' });
     }
     return;
   }
 
   const activeLine = lyricEls[syncedPanelState[panelName]];
-  if (activeLine && (forceScroll || (activeChanged && activeTab === panelName))) {
-    scrollPanelToLine(container, activeLine, forceScroll);
+  const shouldAutoScroll = forceScroll || (activeChanged && activeTab === panelName && !panelState.userScrolling);
+
+  if (activeLine && shouldAutoScroll) {
+    scrollPanelToLine(panelName, container, activeLine, forceScroll);
   }
 }
 
@@ -390,26 +504,38 @@ function updateSyncedTranslation(forceScroll = false) {
   updateSyncedPanel('translation', forceScroll);
 }
 
-function scrollPanelToLine(container, activeLine, immediate = false) {
+function scrollPanelToLine(panelName, container, activeLine, immediate = false) {
   if (!container || !activeLine) {
     return;
   }
 
+  const panelState = panelInteractionState[panelName];
   const track = container.querySelector('.lyrics-track');
   if (!track) {
     return;
   }
 
   const viewportHeight = container.clientHeight;
-  const trackHeight = track.scrollHeight;
+  const contentHeight = container.scrollHeight;
   const activeCenter = activeLine.offsetTop + (activeLine.clientHeight / 2);
-  const minTranslate = Math.min(0, viewportHeight - trackHeight);
-  const maxTranslate = 0;
-  const targetTranslate = (viewportHeight / 2) - activeCenter;
-  const finalTranslate = Math.max(minTranslate, Math.min(maxTranslate, targetTranslate));
+  const targetScroll = activeCenter - (viewportHeight / 2);
+  const maxScroll = Math.max(0, contentHeight - viewportHeight);
+  const finalScroll = Math.max(0, Math.min(maxScroll, targetScroll));
 
-  track.classList.toggle('no-transition', immediate);
-  track.style.transform = `translateY(${finalTranslate}px)`;
+  if (panelState) {
+    panelState.autoScrolling = true;
+  }
+
+  container.scrollTo({
+    top: finalScroll,
+    behavior: immediate ? 'auto' : 'smooth'
+  });
+
+  window.setTimeout(() => {
+    if (panelState) {
+      panelState.autoScrolling = false;
+    }
+  }, immediate ? 0 : 320);
 }
 
 function setActiveTab(tabName) {
@@ -703,6 +829,8 @@ audio.addEventListener('loadedmetadata', () => {
 });
 audio.addEventListener('ended', nextTrack);
 
+registerPanelScroll('lyrics');
+registerPanelScroll('translation');
 loadTrack(currentIndex);
 setActiveTab(activeTab);
 audio.volume = Number(volume.value);
