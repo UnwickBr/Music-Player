@@ -205,17 +205,25 @@ function renderLyrics() {
   }
 
   if (timedLines.length) {
-    lyricsBody.innerHTML = timedLines
-      .map((line, index) => `<p class="lyric-line" data-lyric-index="${index}">${line.text}</p>`)
-      .join('');
+    lyricsBody.innerHTML = `
+      <div class="lyrics-track">
+        ${timedLines
+          .map((line, index) => `<p class="lyric-line" data-lyric-index="${index}">${line.text}</p>`)
+          .join('')}
+      </div>
+    `;
     activeLyricIndex = -1;
     updateSyncedLyrics(true);
     return;
   }
 
-  lyricsBody.innerHTML = plainLines
-    .map((line) => `<p class="lyric-line is-static">${line}</p>`)
-    .join('');
+  lyricsBody.innerHTML = `
+    <div class="lyrics-track">
+      ${plainLines
+        .map((line) => `<p class="lyric-line is-static">${line}</p>`)
+        .join('')}
+    </div>
+  `;
 }
 
 function updateSyncedLyrics(forceScroll = false) {
@@ -269,10 +277,21 @@ function scrollLyricsToLine(activeLine, immediate = false) {
     return;
   }
 
-  const targetTop = activeLine.offsetTop - (lyricsBody.clientHeight / 2) + (activeLine.clientHeight / 2);
-  const maxTop = Math.max(0, lyricsBody.scrollHeight - lyricsBody.clientHeight);
-  const finalTop = Math.max(0, Math.min(targetTop, maxTop));
-  lyricsBody.scrollTop = finalTop;
+  const track = lyricsBody.querySelector('.lyrics-track');
+  if (!track) {
+    return;
+  }
+
+  const viewportHeight = lyricsBody.clientHeight;
+  const trackHeight = track.scrollHeight;
+  const activeCenter = activeLine.offsetTop + (activeLine.clientHeight / 2);
+  const minTranslate = Math.min(0, viewportHeight - trackHeight);
+  const maxTranslate = 0;
+  const targetTranslate = (viewportHeight / 2) - activeCenter;
+  const finalTranslate = Math.max(minTranslate, Math.min(maxTranslate, targetTranslate));
+
+  track.classList.toggle('no-transition', immediate);
+  track.style.transform = `translateY(${finalTranslate}px)`;
 }
 
 function setActiveTab(tabName) {
