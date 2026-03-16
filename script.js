@@ -5,6 +5,7 @@ const nextBtn = document.getElementById('next-btn');
 const loopBtn = document.getElementById('loop-btn');
 const shuffleBtn = document.getElementById('shuffle-btn');
 const volume = document.getElementById('volume');
+const volumeIcon = document.querySelector('.volume-wrap span');
 const progressTrack = document.getElementById('progress-track');
 const progressFill = document.getElementById('progress-fill');
 const progressThumb = document.getElementById('progress-thumb');
@@ -25,6 +26,55 @@ const minutesEl = document.getElementById('minutes');
 const secondsEl = document.getElementById('seconds');
 const millisecondsEl = document.getElementById('milliseconds');
 const waveBars = Array.from(document.querySelectorAll('.wave-bar'));
+const controlIcons = {
+  shuffle: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M16 3h5v5"></path>
+      <path d="M4 20l6.5-6.5"></path>
+      <path d="M15.5 8.5L20 4"></path>
+      <path d="M4 4l16 16"></path>
+      <path d="M16 16h5v5"></path>
+    </svg>
+  `,
+  prev: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M6 5v14"></path>
+      <path d="M18 6l-8 6 8 6V6z"></path>
+    </svg>
+  `,
+  play: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M8 5v14l11-7z" fill="currentColor" stroke="none"></path>
+    </svg>
+  `,
+  pause: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M8 5h3v14H8z" fill="currentColor" stroke="none"></path>
+      <path d="M13 5h3v14h-3z" fill="currentColor" stroke="none"></path>
+    </svg>
+  `,
+  next: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M18 5v14"></path>
+      <path d="M6 6l8 6-8 6V6z"></path>
+    </svg>
+  `,
+  loop: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M17 2l4 4-4 4"></path>
+      <path d="M3 11V9a3 3 0 0 1 3-3h15"></path>
+      <path d="M7 22l-4-4 4-4"></path>
+      <path d="M21 13v2a3 3 0 0 1-3 3H3"></path>
+    </svg>
+  `,
+  volume: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M11 5L6 9H3v6h3l5 4V5z"></path>
+      <path d="M15.5 9.5a4.5 4.5 0 0 1 0 5"></path>
+      <path d="M18.5 7a8 8 0 0 1 0 10"></path>
+    </svg>
+  `
+};
 
 const startDate = new Date(2025, 5, 7, 0, 0, 0, 0);
 
@@ -300,6 +350,18 @@ function registerPanelScroll(panelName) {
     panelState.userScrolling = true;
     schedulePanelResync(panelName);
   });
+}
+
+function applyControlIcons() {
+  shuffleBtn.innerHTML = controlIcons.shuffle;
+  prevBtn.innerHTML = controlIcons.prev;
+  nextBtn.innerHTML = controlIcons.next;
+  loopBtn.innerHTML = controlIcons.loop;
+  playBtn.innerHTML = audio.paused ? controlIcons.play : controlIcons.pause;
+
+  if (volumeIcon) {
+    volumeIcon.innerHTML = controlIcons.volume;
+  }
 }
 
 function renderQueue() {
@@ -727,7 +789,7 @@ async function togglePlay() {
 
 function updatePlayUI() {
   const isPlaying = !audio.paused;
-  playBtn.textContent = isPlaying ? '❚❚' : '▶';
+  playBtn.innerHTML = isPlaying ? controlIcons.pause : controlIcons.play;
   vinyl.classList.toggle('playing', isPlaying);
   renderQueue();
 }
@@ -831,6 +893,7 @@ audio.addEventListener('ended', nextTrack);
 
 registerPanelScroll('lyrics');
 registerPanelScroll('translation');
+applyControlIcons();
 loadTrack(currentIndex);
 setActiveTab(activeTab);
 audio.volume = Number(volume.value);

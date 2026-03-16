@@ -520,6 +520,20 @@ button:active {
   opacity: 0.88;
 }
 
+.icon-button svg,
+.play-button svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+  margin: auto;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  pointer-events: none;
+}
+
 .icon-button.active {
   color: var(--green);
 }
@@ -532,6 +546,11 @@ button:active {
   background: #ffffff;
   color: #11131b;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.38);
+}
+
+.play-button svg {
+  width: 28px;
+  height: 28px;
 }
 
 .tabs-shell {
@@ -781,6 +800,18 @@ button:active {
   align-items: center;
   gap: 8px;
   flex: 1;
+}
+
+.volume-wrap svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  pointer-events: none;
 }
 
 .volume-wrap input {
