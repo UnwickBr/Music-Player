@@ -195,6 +195,106 @@ const blueTranslationLrc = `[ti:blue]
 [02:34.74]Entao me deixa voar com voce
 [02:38.46]Voce vai ficar para sempre comigo?`;
 
+const herLrc = `[ti:audio]
+[ar:jvke]
+[la:EN]
+[re:LRCgenerator.com]
+[ve:4.00]
+
+[00:00.48]look me dead in my eyes
+[00:10.22](Dead in my) 'til the day that I die
+[00:13.45](Dead inside) I just wanna feel alive
+[00:16.82](With you, I'm alive) with you, I'm alive
+[00:19.99]Fell in love, but it left me lonely
+[00:23.40]Tried to trust, but it burned me slowly
+[00:27.21]I didn't know what I was looking for
+[00:31.19]'Til I found her
+[00:37.83]I found her
+[00:45.21]Without her
+[00:47.97]I'm a mess (I'm a mess)
+[00:49.49]There was nothing 'bout that love that made sense, I was stressed
+[00:51.48]'Til I found her (oh, oh)
+[00:58.12]I've run for many miles trying to find love
+[01:02.95]From a woman that could love me and never leave my side
+[01:06.15]And I've run for many miles trying to get away from
+[01:09.89]The things I'm afraid of and everything inside
+[01:13.04]You say that we're already done (done)
+[01:15.67]But what does that even mean?
+[01:16.98]You tell me to open my eyes
+[01:18.62]Thank God it was just a dream
+[01:20.20]I guess that's how you know that it's love
+[01:21.96]When you're scared to death they'll leave
+[01:23.58]Just say that you'll never leave, never leave
+[01:25.36]look me dead in my eyes
+[01:29.91](Dead in my) 'til the day that I die
+[01:33.24](Dead inside) I just wanna feel alive
+[01:36.64](With you, I'm alive) with you, I'm a-, uh
+[01:40.22]Fell in love, but it left me lonely
+[01:43.11]Tried to trust, but it burned me slowly
+[01:46.68]I didn't know what I was looking for
+[01:50.91]'Til I found her
+[01:57.77]I found her
+[02:04.55]Without her
+[02:07.76]I'm a mess (I'm a mess)
+[02:08.89]There was nothing 'bout that love that made sense, I was stressed
+[02:11.38]'Til I found her (oh, oh)
+[02:17.84]'Til we found her
+[02:21.30]I'm a mess (I'm a mess)
+[02:22.07]There was nothing 'bout that love that made sense, I was stressed
+[02:24.83]'Til I found her (oh, oh)
+[02:31.30]'Til I found her
+[02:38.31]Ooh-ooh-ooh
+
+[02:48.00]--- www.LRCgenerator.com ---`;
+
+const herTranslationLrc = `[ti:Her]
+[ar:JVKE]
+[la:PT-BR]
+
+[00:00.48]Olhe bem no fundo dos meus olhos
+[00:10.22](No fundo dos meus) ate o dia em que eu morrer
+[00:13.45](Morto por dentro) eu so quero me sentir vivo
+[00:16.82](Com voce, eu estou vivo) com voce, eu estou vivo
+[00:19.99]Me apaixonei, mas isso me deixou solitario
+[00:23.40]Tentei confiar, mas isso me queimou aos poucos
+[00:27.21]Eu nao sabia o que estava procurando
+[00:31.19]Ate encontrar ela
+[00:37.83]Eu encontrei ela
+[00:45.21]Sem ela
+[00:47.97]Eu sou uma bagunca (eu sou uma bagunca)
+[00:49.49]Nao havia nada naquele amor que fizesse sentido, eu estava destruido
+[00:51.48]Ate encontrar ela (oh, oh)
+[00:58.12]Eu corri por muitas milhas tentando encontrar amor
+[01:02.95]De uma mulher que pudesse me amar e nunca sair do meu lado
+[01:06.15]E eu corri por muitas milhas tentando fugir de
+[01:09.89]Das coisas que eu temo e de tudo aqui dentro
+[01:13.04]Voce diz que nos ja terminamos (terminamos)
+[01:15.67]Mas o que isso sequer significa?
+[01:16.98]Voce me diz para abrir os olhos
+[01:18.62]Ainda bem que foi so um sonho
+[01:20.20]Acho que e assim que voce sabe que e amor
+[01:21.96]Quando voce morre de medo de que a pessoa va embora
+[01:23.58]So diga que voce nunca vai embora, nunca vai embora
+[01:25.36]Olhe bem no fundo dos meus olhos
+[01:29.91](No fundo dos meus) ate o dia em que eu morrer
+[01:33.24](Morto por dentro) eu so quero me sentir vivo
+[01:36.64](Com voce, eu estou vivo) com voce, eu estou, uh
+[01:40.22]Me apaixonei, mas isso me deixou solitario
+[01:43.11]Tentei confiar, mas isso me queimou aos poucos
+[01:46.68]Eu nao sabia o que estava procurando
+[01:50.91]Ate encontrar ela
+[01:57.77]Eu encontrei ela
+[02:04.55]Sem ela
+[02:07.76]Eu sou uma bagunca (eu sou uma bagunca)
+[02:08.89]Nao havia nada naquele amor que fizesse sentido, eu estava destruido
+[02:11.38]Ate encontrar ela (oh, oh)
+[02:17.84]Ate nos encontrarmos nela
+[02:21.30]Eu sou uma bagunca (eu sou uma bagunca)
+[02:22.07]Nao havia nada naquele amor que fizesse sentido, eu estava destruido
+[02:24.83]Ate encontrar ela (oh, oh)
+[02:31.30]Ate encontrar ela
+[02:38.31]Ooh-ooh-ooh`;
+
 const aThousandYearsTranslationLrc = `[ti:A Thousand Years]
 [ar:John Michael Howell]
 [la:PT-BR]
@@ -286,6 +386,15 @@ const playlist = [
     cover: 'A Thousand Years.jpg',
     lyrics: parseLrc(aThousandYearsLrc),
     translation: parseLrc(aThousandYearsTranslationLrc)
+  },
+  {
+    title: 'Her',
+    artist: 'JVKE',
+    plays: '1.8M plays',
+    src: 'Her.mp3',
+    cover: 'Her.jpg',
+    lyrics: parseLrc(herLrc),
+    translation: parseLrc(herTranslationLrc)
   }
 ];
 

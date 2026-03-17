@@ -3,7 +3,7 @@
 }
 
 :root {
-  --card: rgba(7, 8, 14, 0.7);
+  --card: rgba(7, 8, 14, 0.2);
   --card-border: rgba(255, 255, 255, 0.08);
   --text: #f5f7ff;
   --muted: #9aa4c7;
@@ -148,7 +148,7 @@ body {
     0 0 24px rgba(130, 197, 255, 0.2);
   opacity: 0;
   transform: rotate(-24deg) translate3d(0, 0, 0);
-  animation: shooting-star 18s linear infinite;
+  animation: shooting-star 13s linear infinite;
 }
 
 .shooting-star::after {
@@ -178,6 +178,22 @@ body {
   width: 180px;
   animation-delay: 11s;
   animation-duration: 26s;
+}
+
+.shooting-star:nth-child(4) {
+  top: 42%;
+  left: 54%;
+  width: 140px;
+  animation-delay: 4s;
+  animation-duration: 16s;
+}
+
+.shooting-star:nth-child(5) {
+  top: 24%;
+  left: 30%;
+  width: 110px;
+  animation-delay: 9s;
+  animation-duration: 19s;
 }
 
 .cloud-layer {
