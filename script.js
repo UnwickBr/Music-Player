@@ -295,6 +295,499 @@ const herTranslationLrc = `[ti:Her]
 [02:31.30]Ate encontrar ela
 [02:38.31]Ooh-ooh-ooh`;
 
+const ordinaryLrc = `[ti:Alex Warren - Ordinary]
+
+[00:08.00]They say the holy water's watered down
+[00:11.56]And this town's lost its faith
+[00:14.24]Our colors will fade eventually
+[00:17.26]So if our time is running out day after day
+[00:22.44]We'll make the mundane our masterpiece
+
+[00:26.22]Oh my, my
+[00:28.54]Oh my, my love
+[00:32.04]I take one look at you
+
+[00:33.99]You're taking me out of the ordinary
+[00:37.44]I want you laying me down
+[00:39.58]Till we're dead and buried
+[00:41.67]On the edge of your knife
+[00:44.00]Staying drunk on your vine
+[00:46.74]The angels up in the clouds
+[00:49.42]Are jealous knowing we found
+[00:51.31]Something so out of the ordinary
+[00:54.44]You got me kissing the ground of your sanctuary
+[00:58.84]Shatter me with your touch
+[01:01.07]Oh, Lord, return me to dust
+[01:04.10]The angels up in the clouds
+[01:06.50]Are jealous knowing we found
+
+[01:09.72]Hopeless hallelujah
+[01:13.74]Oh, this side of Heaven's gate
+[01:18.23]Oh, my life, how do ya
+[01:22.60]Breathe and take my breath away?
+
+[01:27.36]At your altar, I will pray
+[01:29.82]You're the sculptor, I'm the clay
+[01:32.71]Oh my, my
+
+[01:34.07]You're taking me out of the ordinary
+[01:37.53]I want you laying me down
+[01:39.57]Till we're dead and buried
+[01:41.88]On the edge of your knife
+[01:43.98]Staying drunk on your vine
+[01:46.98]The angels up in the clouds
+[01:49.40]Are jealous knowing we found
+[01:51.21]Something so out (out) of the ordinary (ordinary)
+[01:54.93]You got me kissing the ground (ground) of your sanctuary (sanctuary)
+[01:59.14]Shatter me with your touch
+[02:01.17]Oh, Lord, return me to dust
+[02:04.19]The angels up in the clouds
+[02:06.47]Are jealous knowing we found
+
+[02:09.30]Something so heavenly, higher than ecstasy
+[02:13.57]Whenever you're next to me, oh my, my
+[02:17.84]World was in black and white until I saw your light
+[02:22.14]I thought you had to die to find
+
+[02:25.56]Something so out of the ordinary
+[02:29.13]I want you laying me down
+[02:31.04]Till we're dead and buried
+[02:33.33]On the edge of your knife
+[02:35.29]Staying drunk on your vine
+[02:38.28]The angels up in the clouds
+[02:40.56]Are jealous knowing we found
+[02:42.56]Something so out (out) of the ordinary
+[02:46.00]You got me kissing the ground (ground) of your sanctuary (sanctuary)
+[02:50.39]Shatter me with your touch
+[02:52.86]Oh, Lord, return me to dust
+[02:55.50]The angels up in the clouds
+[02:57.80]Are jealous knowing we found`;
+
+const ordinaryTranslationLrc = `[ti:Ordinary]
+[ar:Alex Warren]
+[la:PT-BR]
+
+[00:08.00]Dizem que a agua benta esta diluida
+[00:11.56]E que esta cidade perdeu a fe
+[00:14.24]Nossas cores vao desaparecer um dia
+[00:17.26]Entao, se o nosso tempo esta acabando dia apos dia
+[00:22.44]Vamos transformar o comum em nossa obra-prima
+
+[00:26.22]Oh meu, meu
+[00:28.54]Oh meu, meu amor
+[00:32.04]Eu dou uma olhada em voce
+
+[00:33.99]Voce esta me tirando do comum
+[00:37.44]Eu quero voce me deitando
+[00:39.58]Ate estarmos mortos e enterrados
+[00:41.67]Na ponta da sua faca
+[00:44.00]Embriagado na sua vinha
+[00:46.74]Os anjos la nas nuvens
+[00:49.42]Têm inveja de saber que encontramos
+[00:51.31]Algo tao fora do comum
+[00:54.44]Voce me faz beijar o chao do seu santuario
+[00:58.84]Me despedace com o seu toque
+[01:01.07]Oh, Senhor, me devolva ao po
+[01:04.10]Os anjos la nas nuvens
+[01:06.50]Têm inveja de saber que encontramos
+
+[01:09.72]Aleluia sem esperanca
+[01:13.74]Oh, deste lado dos portoes do ceu
+[01:18.23]Oh, minha vida, como voce
+[01:22.60]Respira e tira o meu folego?
+
+[01:27.36]No seu altar, eu vou rezar
+[01:29.82]Voce e a escultora, eu sou o barro
+[01:32.71]Oh meu, meu
+
+[01:34.07]Voce esta me tirando do comum
+[01:37.53]Eu quero voce me deitando
+[01:39.57]Ate estarmos mortos e enterrados
+[01:41.88]Na ponta da sua faca
+[01:43.98]Embriagado na sua vinha
+[01:46.98]Os anjos la nas nuvens
+[01:49.40]Têm inveja de saber que encontramos
+[01:51.21]Algo tao fora (fora) do comum (comum)
+[01:54.93]Voce me faz beijar o chao (chao) do seu santuario (santuario)
+[01:59.14]Me despedace com o seu toque
+[02:01.17]Oh, Senhor, me devolva ao po
+[02:04.19]Os anjos la nas nuvens
+[02:06.47]Têm inveja de saber que encontramos
+
+[02:09.30]Algo tao celestial, mais alto que o extase
+[02:13.57]Sempre que voce esta ao meu lado, oh meu, meu
+[02:17.84]O mundo estava em preto e branco ate eu ver a sua luz
+[02:22.14]Eu pensei que precisava morrer para encontrar
+
+[02:25.56]Algo tao fora do comum
+[02:29.13]Eu quero voce me deitando
+[02:31.04]Ate estarmos mortos e enterrados
+[02:33.33]Na ponta da sua faca
+[02:35.29]Embriagado na sua vinha
+[02:38.28]Os anjos la nas nuvens
+[02:40.56]Têm inveja de saber que encontramos
+[02:42.56]Algo tao fora (fora) do comum
+[02:46.00]Voce me faz beijar o chao (chao) do seu santuario (santuario)
+[02:50.39]Me despedace com o seu toque
+[02:52.86]Oh, Senhor, me devolva ao po
+[02:55.50]Os anjos la nas nuvens
+[02:57.80]Têm inveja de saber que encontramos`;
+
+const letTheWorldBurnLrc = `[ti:Chris Grey - LET THE WORLD BURN]
+
+[00:02.06]Lost in the fog
+[00:08.38]I fear that there's still further to fall
+[00:13.75]It's dangerous 'cause I want it all
+[00:18.92]And I don't think I care what it costs
+[00:23.97]I shouldn't have fallen in love
+[00:26.71]Look what it made me become
+[00:29.42]I let you get too close
+[00:31.95]Just to wake up alone
+[00:34.50]And I know you think you can run
+[00:37.05]You're scared to believe I'm the one
+[00:39.90]But I just can't let you go
+[00:44.85]I'd let the world burn
+[00:47.87]Let the world burn for you
+[00:50.47]This is how it always had to end
+[00:53.25]If I can't have you then no one can
+[00:55.98]I'd let it burn
+[00:58.35]I'd let the world burn
+[01:00.94]Just to hear you calling out my name
+[01:03.49]Watching it all go down in flames
+[01:06.78]Fear in their eyes
+[01:10.65]Ash raining from the blood orange sky
+[01:15.47]I let everybody know that you're mine
+[01:19.96]Now it's just a matter of time
+[01:25.78]Before we're swept into the dust
+[01:28.63]Look what you made me become
+[01:31.26]I let you get too close
+[01:33.86]Just to wake up alone
+[01:36.43]And I know you think you can run
+[01:38.92]You're scared to believe I'm the one
+[01:41.71]But I just can't let you go
+[01:46.68]I'd let the world burn
+[01:49.46]Let the world burn for you
+[01:52.41]This is how it always had to end
+[01:55.22]If I can't have you then no one can
+[01:57.96]I'd let it burn
+[02:00.27]I'd let the world burn
+[02:02.86]Just to hear you calling out my name
+[02:05.49]Watching it all go down in flames
+[02:08.75]Let it all burn
+[02:12.63]Oh, I'd burn this world for you
+[02:17.25]Oh, baby, I'd let it burn
+[02:23.53]For you
+[02:27.76]I'd let the world burn
+[02:30.76]Let the world burn for you
+[02:33.67]This is how it always had to end
+[02:36.70]If I can't have you then no one can`;
+
+const letTheWorldBurnTranslationLrc = `[ti:LET THE WORLD BURN]
+[ar:Chris Grey]
+[la:PT-BR]
+
+[00:02.06]Perdido na nevoa
+[00:08.38]Eu temo que ainda haja mais para cair
+[00:13.75]E perigoso porque eu quero tudo
+[00:18.92]E eu nao acho que me importe com o preco
+[00:23.97]Eu nao deveria ter me apaixonado
+[00:26.71]Olha no que isso me transformou
+[00:29.42]Eu deixei voce chegar perto demais
+[00:31.95]So para acordar sozinho
+[00:34.50]E eu sei que voce acha que pode fugir
+[00:37.05]Voce tem medo de acreditar que eu sou o certo
+[00:39.90]Mas eu simplesmente nao consigo te deixar ir
+[00:44.85]Eu deixaria o mundo queimar
+[00:47.87]Deixaria o mundo queimar por voce
+[00:50.47]E assim que isso sempre teve que terminar
+[00:53.25]Se eu nao puder ter voce, ninguem pode
+[00:55.98]Eu deixaria queimar
+[00:58.35]Eu deixaria o mundo queimar
+[01:00.94]So para ouvir voce chamar o meu nome
+[01:03.49]Vendo tudo desabar em chamas
+[01:06.78]Medo nos olhos deles
+[01:10.65]Cinzas caindo de um ceu vermelho-sangue
+[01:15.47]Eu deixei todo mundo saber que voce e minha
+[01:19.96]Agora e so questao de tempo
+[01:25.78]Antes de sermos varridos para o po
+[01:28.63]Olha no que voce me transformou
+[01:31.26]Eu deixei voce chegar perto demais
+[01:33.86]So para acordar sozinho
+[01:36.43]E eu sei que voce acha que pode fugir
+[01:38.92]Voce tem medo de acreditar que eu sou o certo
+[01:41.71]Mas eu simplesmente nao consigo te deixar ir
+[01:46.68]Eu deixaria o mundo queimar
+[01:49.46]Deixaria o mundo queimar por voce
+[01:52.41]E assim que isso sempre teve que terminar
+[01:55.22]Se eu nao puder ter voce, ninguem pode
+[01:57.96]Eu deixaria queimar
+[02:00.27]Eu deixaria o mundo queimar
+[02:02.86]So para ouvir voce chamar o meu nome
+[02:05.49]Vendo tudo desabar em chamas
+[02:08.75]Deixe tudo queimar
+[02:12.63]Oh, eu queimaria este mundo por voce
+[02:17.25]Oh, baby, eu deixaria queimar
+[02:23.53]Por voce
+[02:27.76]Eu deixaria o mundo queimar
+[02:30.76]Deixaria o mundo queimar por voce
+[02:33.67]E assim que isso sempre teve que terminar
+[02:36.70]Se eu nao puder ter voce, ninguem pode`;
+
+const infinityLrc = `[ti:jaymes young - infinity]
+
+[00:03.51]Baby, this love
+[00:18.11]I'll never let it die
+[00:21.09]Can't be touched by no one
+[00:25.21]I'd like to see 'em try
+[00:28.93]I'm a mad man for your touch, girl, I've lost control
+[00:36.78]I'm gonna make this last forever, don't tell me it's impossible
+[00:44.95]'Cause I love you for infinity (oh-oh-oh)
+[00:50.36]I love you for infinity (oh-oh-oh)
+[00:53.95]'Cause I love you for infinity (oh-oh-oh)
+[00:57.99]I love you for infinity (oh-oh-oh)
+[01:17.75]Oh, darling, my soul
+[01:20.85]You know it aches for yours
+[01:24.08]And you've been filling this hole
+[01:28.57]Since you were born, oh
+[01:34.15]'Cause you're the reason I believe in fate, you're my paradise
+[01:40.30]And I'll do anything to be your love or be your sacrifice
+[01:47.83]'Cause I love you for infinity (oh-oh-oh)
+[01:53.02]I love you for infinity (oh-oh-oh)
+[01:56.90]'Cause I love you for infinity (oh-oh-oh)
+[02:01.00]I love you for infinity (yeah-eh, oh-oh-oh)
+[02:22.00]Meet me at the bottom of the ocean
+[02:26.71]Where the time is frozen
+[02:30.27]Where all the universe is open
+[02:34.54]Love isn't random, we are chosen
+[02:38.31]And we could wear the same crown
+[02:42.65]Keep slowing your heart down
+[02:47.43]We are the gods now
+[02:51.65]'Cause I love you for infinity (oh-oh-oh)
+[02:56.21]I love you for infinity (oh-oh-oh)
+[02:59.86]'Cause I love you for infinity (oh-oh-oh)
+[03:03.83]I love you for infinity (oh-oh-oh)`;
+
+const infinityTranslationLrc = `[ti:Infinity]
+[ar:Jaymes Young]
+[la:PT-BR]
+
+[00:03.51]Baby, este amor
+[00:18.11]Eu nunca vou deixar morrer
+[00:21.09]Nao pode ser tocado por ninguem
+[00:25.21]Eu gostaria de ver tentarem
+[00:28.93]Eu sou louco pelo seu toque, garota, perdi o controle
+[00:36.78]Vou fazer isso durar para sempre, nao me diga que e impossivel
+[00:44.95]Porque eu te amo ate o infinito (oh-oh-oh)
+[00:50.36]Eu te amo ate o infinito (oh-oh-oh)
+[00:53.95]Porque eu te amo ate o infinito (oh-oh-oh)
+[00:57.99]Eu te amo ate o infinito (oh-oh-oh)
+[01:17.75]Oh, querida, minha alma
+[01:20.85]Voce sabe que ela anseia pela sua
+[01:24.08]E voce tem preenchido esse vazio
+[01:28.57]Desde que nasceu, oh
+[01:34.15]Porque voce e a razao pela qual eu acredito no destino, voce e o meu paraiso
+[01:40.30]E eu faria qualquer coisa para ser o seu amor ou o seu sacrificio
+[01:47.83]Porque eu te amo ate o infinito (oh-oh-oh)
+[01:53.02]Eu te amo ate o infinito (oh-oh-oh)
+[01:56.90]Porque eu te amo ate o infinito (oh-oh-oh)
+[02:01.00]Eu te amo ate o infinito (yeah-eh, oh-oh-oh)
+[02:22.00]Me encontre no fundo do oceano
+[02:26.71]Onde o tempo esta congelado
+[02:30.27]Onde todo o universo esta aberto
+[02:34.54]O amor nao e aleatorio, fomos escolhidos
+[02:38.31]E poderiamos usar a mesma coroa
+[02:42.65]Continue desacelerando o seu coracao
+[02:47.43]Nos somos os deuses agora
+[02:51.65]Porque eu te amo ate o infinito (oh-oh-oh)
+[02:56.21]Eu te amo ate o infinito (oh-oh-oh)
+[02:59.86]Porque eu te amo ate o infinito (oh-oh-oh)
+[03:03.83]Eu te amo ate o infinito (oh-oh-oh)`;
+
+const dieWithASmileLrc = `[ti:Lady Gaga, Bruno Mars - Die With A Smile]
+[la:EN]
+[re:LRCgenerator.com]
+[ve:4.00]
+
+[00:00.40]Ooh
+[00:08.18]I
+
+[00:11.03]I just woke up from a dream
+[00:15.00]Where you and I had to say goodbye
+[00:19.62]And I don't know what it all means
+[00:24.22]But since I survived, I realized
+
+[00:28.72]Wherever you go, that's where I'll follow
+[00:33.60]Nobody's promised tomorrow
+[00:37.99]So I'ma love you every night like it's the last night
+[00:42.96]Like it's the last night
+
+[00:44.60]If the world was ending, I'd wanna be next to you
+[00:53.18]If the party was over and our time on Earth was through
+[01:02.71]I'd wanna hold you just for a while
+[01:07.59]And die with a smile
+[01:11.71]If the world was ending, I'd wanna be next to you
+
+[01:18.91]Woo-ooh
+
+[01:24.53]Ooh, lost
+[01:27.90]Lost in the words that we scream
+[01:32.40]I don't even wanna do this anymore
+[01:37.26]'Cause you already know what you mean to me
+[01:40.99]And our love's the only war worth fighting for
+
+[01:46.15]Wherever you go, that's where I'll follow
+[01:51.08]Nobody's promised tomorrow
+[01:55.40]So I'ma love you every night like it's the last night
+[01:59.55]Like it's the last night
+
+[02:02.04]If the world was ending, I'd wanna be next to you
+[02:10.90]If the party was over and our time on Earth was through
+[02:20.08]I'd wanna hold you just for a while
+[02:24.66]And die with a smile
+[02:29.21]If the world was ending, I'd wanna be next to you
+
+[02:37.33]Right next to you
+[02:41.42]Next to you
+[02:46.74]Right next to you
+[02:50.74]Oh-oh-oh
+
+[03:09.53]If the world was ending, I'd wanna be next to you
+[03:19.36]If the party was over and our time on Earth was through
+[03:28.33]I'd wanna hold you just for a while
+[03:33.21]And die with a smile
+[03:37.75]If the world was ending, I'd wanna be next to you
+[03:46.46]If the world was ending, I'd wanna be next to you
+
+[03:54.92]Ooh, ooh
+[03:58.79]I'd wanna be next to you
+
+[04:06.33]--- www.LRCgenerator.com ---`;
+
+const dieWithASmileTranslationLrc = `[ti:Die With A Smile]
+[ar:Lady Gaga, Bruno Mars]
+[la:PT-BR]
+
+[00:00.40]Ooh
+[00:08.18]Eu
+
+[00:11.03]Acabei de acordar de um sonho
+[00:15.00]Em que voce e eu precisavamos dizer adeus
+[00:19.62]E eu nao sei o que tudo isso significa
+[00:24.22]Mas, como eu sobrevivi, percebi
+
+[00:28.72]Onde quer que voce va, e para la que eu vou
+[00:33.60]Ninguem tem o amanha garantido
+[00:37.99]Entao eu vou te amar toda noite como se fosse a ultima
+[00:42.96]Como se fosse a ultima noite
+
+[00:44.60]Se o mundo estivesse acabando, eu queria estar ao seu lado
+[00:53.18]Se a festa acabasse e o nosso tempo na Terra terminasse
+[01:02.71]Eu iria querer te abracar so por um instante
+[01:07.59]E morrer com um sorriso
+[01:11.71]Se o mundo estivesse acabando, eu queria estar ao seu lado
+
+[01:18.91]Woo-ooh
+
+[01:24.53]Ooh, perdido
+[01:27.90]Perdido nas palavras que gritamos
+[01:32.40]Eu nem quero mais fazer isso
+[01:37.26]Porque voce ja sabe o que significa para mim
+[01:40.99]E o nosso amor e a unica guerra pela qual vale a pena lutar
+
+[01:46.15]Onde quer que voce va, e para la que eu vou
+[01:51.08]Ninguem tem o amanha garantido
+[01:55.40]Entao eu vou te amar toda noite como se fosse a ultima
+[01:59.55]Como se fosse a ultima noite
+
+[02:02.04]Se o mundo estivesse acabando, eu queria estar ao seu lado
+[02:10.90]Se a festa acabasse e o nosso tempo na Terra terminasse
+[02:20.08]Eu iria querer te abracar so por um instante
+[02:24.66]E morrer com um sorriso
+[02:29.21]Se o mundo estivesse acabando, eu queria estar ao seu lado
+
+[02:37.33]Bem ao seu lado
+[02:41.42]Ao seu lado
+[02:46.74]Bem ao seu lado
+[02:50.74]Oh-oh-oh
+
+[03:09.53]Se o mundo estivesse acabando, eu queria estar ao seu lado
+[03:19.36]Se a festa acabasse e o nosso tempo na Terra terminasse
+[03:28.33]Eu iria querer te abracar so por um instante
+[03:33.21]E morrer com um sorriso
+[03:37.75]Se o mundo estivesse acabando, eu queria estar ao seu lado
+[03:46.46]Se o mundo estivesse acabando, eu queria estar ao seu lado
+
+[03:54.92]Ooh, ooh
+[03:58.79]Eu queria estar ao seu lado`;
+
+const untilIFoundYouLrc = `[ti:Until I Found You (Em Beihold Version) - Stephen Sanchez]
+
+[00:00.00]Georgia
+[00:13.06]Wrap me up in all your, I want ya
+[00:19.86]In my arms, oh, let me hold ya
+[00:27.16]I'll never let you go again like I did
+[00:33.12]Oh, I used to say
+
+[00:36.72]I would never fall in love again until I found her
+[00:43.74]I said: I would never fall unless it's you I fall into
+[00:51.03]I was lost within the darkness, but then I found her
+[00:57.71]I found you
+
+[01:05.67]Heaven
+[01:09.61]When I held you again
+[01:13.37]How could
+[01:17.07]We ever just be friends?
+
+[01:20.90]I would
+[01:23.04]Rather die than let you go
+[01:26.43]Juliet to your Romeo
+[01:30.02]How I heard you say
+
+[01:33.82]I would never fall in love again until I found her
+[01:40.93]I said: I would never fall unless it's you I fall into
+[01:48.09]I was lost within the darkness, but then I found her
+[01:54.75]I found you
+
+[02:17.01]I would never fall in love again until I found her
+[02:23.41]I said: I would never fall unless it's you I fall into
+[02:30.56]I was lost within the darkness, but then I found her
+[02:37.19]I found you`;
+
+const untilIFoundYouTranslationLrc = `[ti:Until I Found You]
+[ar:Stephen Sanchez]
+[la:PT-BR]
+
+[00:00.00]Georgia
+[00:13.06]Me envolve em tudo o que e seu, eu te quero
+[00:19.86]Nos meus bracos, oh, deixa eu te abracar
+[00:27.16]Eu nunca vou te deixar ir de novo como eu fiz
+[00:33.12]Oh, eu costumava dizer
+
+[00:36.72]Eu nunca me apaixonaria de novo ate encontrar ela
+[00:43.74]Eu disse: eu nunca cairia, a nao ser que fosse em voce
+[00:51.03]Eu estava perdido na escuridao, mas entao encontrei ela
+[00:57.71]Eu encontrei voce
+
+[01:05.67]Ceu
+[01:09.61]Quando eu te abracei de novo
+[01:13.37]Como e que
+[01:17.07]Nos poderiamos ser apenas amigos?
+
+[01:20.90]Eu
+[01:23.04]Prefiro morrer do que te deixar ir
+[01:26.43]Julieta para o seu Romeu
+[01:30.02]Foi assim que eu ouvi voce dizer
+
+[01:33.82]Eu nunca me apaixonaria de novo ate encontrar ela
+[01:40.93]Eu disse: eu nunca cairia, a nao ser que fosse em voce
+[01:48.09]Eu estava perdido na escuridao, mas entao encontrei ela
+[01:54.75]Eu encontrei voce
+
+[02:17.01]Eu nunca me apaixonaria de novo ate encontrar ela
+[02:23.41]Eu disse: eu nunca cairia, a nao ser que fosse em voce
+[02:30.56]Eu estava perdido na escuridao, mas entao encontrei ela
+[02:37.19]Eu encontrei voce`;
+
 const aThousandYearsTranslationLrc = `[ti:A Thousand Years]
 [ar:John Michael Howell]
 [la:PT-BR]
@@ -395,6 +888,51 @@ const playlist = [
     cover: 'Her.jpg',
     lyrics: parseLrc(herLrc),
     translation: parseLrc(herTranslationLrc)
+  },
+  {
+    title: 'Ordinary',
+    artist: 'Alex Warren',
+    plays: '',
+    src: 'Alex Warren - Ordinary.mp3',
+    cover: 'Alex Warren - Ordinary.jpg',
+    lyrics: parseLrc(ordinaryLrc),
+    translation: parseLrc(ordinaryTranslationLrc)
+  },
+  {
+    title: 'LET THE WORLD BURN',
+    artist: 'Chris Grey',
+    plays: '',
+    src: 'Chris Grey - LET THE WORLD BURN.mp3',
+    cover: 'Chris Grey- Let the World Burn.jpg',
+    lyrics: parseLrc(letTheWorldBurnLrc),
+    translation: parseLrc(letTheWorldBurnTranslationLrc)
+  },
+  {
+    title: 'Infinity',
+    artist: 'Jaymes Young',
+    plays: '',
+    src: 'jaymes young - infinity.mp3',
+    cover: 'Jaymes Young - Infinity.png',
+    lyrics: parseLrc(infinityLrc),
+    translation: parseLrc(infinityTranslationLrc)
+  },
+  {
+    title: 'Die With A Smile',
+    artist: 'Lady Gaga, Bruno Mars',
+    plays: '',
+    src: 'Lady Gaga, Bruno Mars - Die With A Smile.mp3',
+    cover: 'Lady Gaga, Bruno Mars - Die With A Smile.jpg',
+    lyrics: parseLrc(dieWithASmileLrc),
+    translation: parseLrc(dieWithASmileTranslationLrc)
+  },
+  {
+    title: 'Until I Found You',
+    artist: 'Stephen Sanchez',
+    plays: '',
+    src: 'Until I Found You (Em Beihold Version) - Stephen Sanchez.mp3',
+    cover: 'Until I Found You (Em Beihold Version).jpg',
+    lyrics: parseLrc(untilIFoundYouLrc),
+    translation: parseLrc(untilIFoundYouTranslationLrc)
   }
 ];
 
@@ -490,7 +1028,7 @@ function renderQueue() {
       item.classList.add('active');
     }
 
-    const artistLine = track.artist ? `${track.artist} • ${track.plays}` : track.plays;
+    const artistLine = [track.artist, track.plays].filter(Boolean).join(' • ');
 
     item.innerHTML = `
       <span class="queue-thumb-wrap">
@@ -903,6 +1441,12 @@ function updatePlayUI() {
   renderQueue();
 }
 
+function updateLoopUI() {
+  loopBtn.classList.toggle('active', audio.loop);
+  loopBtn.title = audio.loop ? 'Repetindo musica atual' : 'Repetir desativado';
+  loopBtn.setAttribute('aria-pressed', audio.loop ? 'true' : 'false');
+}
+
 function updateProgress() {
   if (!audio.duration) return;
   const percent = (audio.currentTime / audio.duration) * 100;
@@ -964,7 +1508,7 @@ document.addEventListener('pointerdown', setupWaveform, { once: true, passive: t
 
 loopBtn.addEventListener('click', () => {
   audio.loop = !audio.loop;
-  loopBtn.classList.toggle('active', audio.loop);
+  updateLoopUI();
 });
 
 shuffleBtn.addEventListener('click', () => {
@@ -1003,6 +1547,7 @@ audio.addEventListener('ended', nextTrack);
 registerPanelScroll('lyrics');
 registerPanelScroll('translation');
 applyControlIcons();
+updateLoopUI();
 loadTrack(currentIndex);
 setActiveTab(activeTab);
 audio.volume = Number(volume.value);
