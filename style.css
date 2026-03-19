@@ -17,10 +17,12 @@
 html,
 body {
   margin: 0;
+  width: 100%;
   min-height: 100%;
   font-family: "Inter", system-ui, sans-serif;
   color: var(--text);
   background: #04050d;
+  overflow-x: hidden;
 }
 
 body {
@@ -29,6 +31,7 @@ body {
 
 .scene {
   position: relative;
+  width: 100%;
   min-height: 100vh;
   overflow: hidden;
   display: grid;
@@ -302,6 +305,7 @@ body {
   z-index: 3;
   width: min(92vw, 430px);
   max-width: 100%;
+  min-width: 0;
   display: grid;
   gap: 18px;
 }
@@ -314,6 +318,7 @@ body {
   position: relative;
   z-index: 3;
   width: 100%;
+  max-width: 100%;
   padding: 20px 18px 16px;
   border-radius: 22px;
   border: 1px solid var(--card-border);
@@ -955,6 +960,8 @@ button:active {
 }
 
 .love-timer {
+  width: 100%;
+  max-width: 100%;
   padding: 16px 18px;
   border-radius: 22px;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1122,12 +1129,23 @@ button:active {
   }
 
   .player-header {
-    padding-right: 44px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+    padding-right: 0;
     margin-bottom: 12px;
   }
 
   .player-logo-image {
-    width: min(180px, 58vw);
+    width: min(150px, 46vw);
+    justify-self: center;
+  }
+
+  .header-actions {
+    position: static;
+    transform: none;
+    justify-self: end;
   }
 
   .album-cover {
@@ -1164,6 +1182,19 @@ button:active {
   .devices {
     font-size: 0.68rem;
     padding: 8px 10px;
+    max-width: 100%;
+  }
+
+  .queue-header {
+    flex-wrap: wrap;
+  }
+
+  .bottom-bar {
+    flex-wrap: wrap;
+  }
+
+  .volume-wrap {
+    min-width: 0;
   }
 
   .timer-grid {
