@@ -6,6 +6,7 @@ const loopBtn = document.getElementById('loop-btn');
 const shuffleBtn = document.getElementById('shuffle-btn');
 const volume = document.getElementById('volume');
 const volumeIcon = document.querySelector('.volume-wrap span');
+const glowToggleBtn = document.getElementById('glow-toggle');
 const progressTrack = document.getElementById('progress-track');
 const progressFill = document.getElementById('progress-fill');
 const progressThumb = document.getElementById('progress-thumb');
@@ -13,6 +14,7 @@ const currentTimeEl = document.getElementById('current-time');
 const durationEl = document.getElementById('duration');
 const vinyl = document.getElementById('vinyl');
 const cover = document.getElementById('cover');
+const playerShell = document.querySelector('.player-shell');
 const queueList = document.getElementById('queue-list');
 const lyricsBody = document.getElementById('lyrics-body');
 const translationBody = document.getElementById('translation-body');
@@ -72,6 +74,11 @@ const controlIcons = {
       <path d="M11 5L6 9H3v6h3l5 4V5z"></path>
       <path d="M15.5 9.5a4.5 4.5 0 0 1 0 5"></path>
       <path d="M18.5 7a8 8 0 0 1 0 10"></path>
+    </svg>
+  `,
+  glow: `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z"></path>
     </svg>
   `
 };
@@ -945,6 +952,7 @@ let sourceNode;
 let frequencyData;
 let animationFrameId;
 let waveformReady = false;
+let glowEnabled = true;
 const syncedPanelState = {
   lyrics: -1,
   translation: -1
@@ -1008,6 +1016,10 @@ function applyControlIcons() {
 
   if (volumeIcon) {
     volumeIcon.innerHTML = controlIcons.volume;
+  }
+
+  if (glowToggleBtn) {
+    glowToggleBtn.innerHTML = controlIcons.glow;
   }
 }
 
@@ -1362,10 +1374,18 @@ function paintIdleWave() {
   waveBars.forEach((bar, index) => {
     const distanceFromCenter = Math.abs(index - (total - 1) / 2);
     const centerBias = 1 - distanceFromCenter / ((total - 1) / 2);
-    const shapedBias = Math.pow(centerBias, 1.7);
+    const shapedBias = Math.pow(centerBias, 1.6);
     bar.style.height = `${9 + shapedBias * 20}px`;
     bar.style.opacity = `${0.3 + shapedBias * 0.6}`;
   });
+
+  if (playerShell) {
+    if (!glowEnabled) {
+      playerShell.style.setProperty('--player-glow-strength', '0');
+    } else {
+      playerShell.style.setProperty('--player-glow-strength', '0.18');
+    }
+  }
 }
 
 function setupWaveform() {
@@ -1377,8 +1397,8 @@ function setupWaveform() {
 
     audioContext = new AudioContextClass();
     analyser = audioContext.createAnalyser();
-    analyser.fftSize = 64;
-    analyser.smoothingTimeConstant = 0.58;
+    analyser.fftSize = 256;
+    analyser.smoothingTimeConstant = 0;
     sourceNode = audioContext.createMediaElementSource(audio);
     sourceNode.connect(analyser);
     analyser.connect(audioContext.destination);
@@ -1400,11 +1420,13 @@ function drawWaveform() {
 
   analyser.getByteFrequencyData(frequencyData);
   const totalBars = waveBars.length;
+  let energySum = 0;
 
   waveBars.forEach((bar, index) => {
     const mirroredIndex = index < totalBars / 2 ? index : totalBars - 1 - index;
     const sourceIndex = Math.min(mirroredIndex, frequencyData.length - 1);
     const value = frequencyData[sourceIndex] / 255;
+    energySum += value;
     const distanceFromCenter = Math.abs(index - (totalBars - 1) / 2);
     const centerBias = 1 - distanceFromCenter / ((totalBars - 1) / 2);
     const shapedBias = Math.pow(centerBias, 1.85);
@@ -1417,6 +1439,26 @@ function drawWaveform() {
     bar.style.height = `${height}px`;
     bar.style.opacity = `${0.32 + Math.min(0.68, heightBoost * (0.28 + shapedBias * 0.72))}`;
   });
+
+  if (playerShell) {
+    if (!glowEnabled) {
+      playerShell.style.setProperty('--player-glow-strength', '0');
+    } else {
+      const averageEnergy = energySum / totalBars;
+      const bassSlice = frequencyData.slice(0, 6);
+      const bassEnergy = bassSlice.reduce((sum, value) => sum + value, 0) / (bassSlice.length * 255);
+      const beatPulse = Math.abs(Math.sin(performance.now() * 0.022)) * bassEnergy * 0.28;
+      const glowStrength = Math.min(1, 0.16 + (averageEnergy * 1.2) + (bassEnergy * 0.95) + beatPulse);
+      const huePhase = (performance.now() * 0.0025) + (bassEnergy * 3.5) + (averageEnergy * 1.5);
+      const glowR = Math.round(210 + (45 * Math.sin(huePhase)));
+      const glowG = Math.round(205 + (50 * Math.sin(huePhase + 2.1)));
+      const glowB = Math.round(225 + (30 * Math.sin(huePhase + 4.2)));
+      playerShell.style.setProperty('--player-glow-strength', glowStrength.toFixed(3));
+      playerShell.style.setProperty('--player-glow-r', String(Math.max(170, Math.min(255, glowR))));
+      playerShell.style.setProperty('--player-glow-g', String(Math.max(170, Math.min(255, glowG))));
+      playerShell.style.setProperty('--player-glow-b', String(Math.max(200, Math.min(255, glowB))));
+    }
+  }
 
   animationFrameId = window.requestAnimationFrame(drawWaveform);
 }
@@ -1445,6 +1487,20 @@ function updateLoopUI() {
   loopBtn.classList.toggle('active', audio.loop);
   loopBtn.title = audio.loop ? 'Repetindo musica atual' : 'Repetir desativado';
   loopBtn.setAttribute('aria-pressed', audio.loop ? 'true' : 'false');
+}
+
+function updateGlowUI() {
+  if (!glowToggleBtn) {
+    return;
+  }
+
+  glowToggleBtn.classList.toggle('active', glowEnabled);
+  glowToggleBtn.title = glowEnabled ? 'Desligar glow' : 'Ligar glow';
+  glowToggleBtn.setAttribute('aria-pressed', glowEnabled ? 'true' : 'false');
+
+  if (playerShell && !glowEnabled) {
+    playerShell.style.setProperty('--player-glow-strength', '0');
+  }
 }
 
 function updateProgress() {
@@ -1511,6 +1567,13 @@ loopBtn.addEventListener('click', () => {
   updateLoopUI();
 });
 
+if (glowToggleBtn) {
+  glowToggleBtn.addEventListener('click', () => {
+    glowEnabled = !glowEnabled;
+    updateGlowUI();
+  });
+}
+
 shuffleBtn.addEventListener('click', () => {
   shuffle = !shuffle;
   shuffleBtn.classList.toggle('active', shuffle);
@@ -1548,6 +1611,7 @@ registerPanelScroll('lyrics');
 registerPanelScroll('translation');
 applyControlIcons();
 updateLoopUI();
+updateGlowUI();
 loadTrack(currentIndex);
 setActiveTab(activeTab);
 audio.volume = Number(volume.value);
