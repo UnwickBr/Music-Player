@@ -354,8 +354,7 @@ body {
   align-items: center;
   justify-content: center;
   min-width: 0;
-  padding-right: 52px;
-  margin-bottom: 16px;
+  margin-bottom: -4px;
 }
 
 .player-logo {
@@ -364,7 +363,7 @@ body {
 
 .player-logo-image {
   display: block;
-  width: min(225px, 62%);
+  width: min(300px, 78%);
   max-width: 100%;
   height: auto;
   object-fit: contain;
@@ -405,16 +404,6 @@ body {
   white-space: nowrap;
 }
 
-.header-actions {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
 .glow-toggle {
   width: 28px;
   height: 28px;
@@ -449,14 +438,6 @@ body {
   color: var(--muted);
   font-size: 0.82rem;
   font-weight: 500;
-}
-
-.status-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 18px var(--green);
 }
 
 .album-wrap {
@@ -1013,6 +994,45 @@ button:active {
   letter-spacing: 0.08em;
 }
 
+.timer-glow-toggle {
+  display: grid;
+  place-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.timer-glow-toggle small {
+  margin-top: 0;
+}
+
+.timer-glow-toggle.active {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 10px 22px rgba(0, 0, 0, 0.18);
+}
+
+.timer-glow-icon {
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer-glow-icon svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  pointer-events: none;
+}
+
 @keyframes spin {
   from {
     transform: translateX(15%) rotate(0deg);
@@ -1130,22 +1150,15 @@ button:active {
 
   .player-header {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr);
     align-items: center;
     gap: 10px;
-    padding-right: 0;
-    margin-bottom: 12px;
+    margin-bottom: -2px;
   }
 
   .player-logo-image {
-    width: min(150px, 46vw);
+    width: min(210px, 62vw);
     justify-self: center;
-  }
-
-  .header-actions {
-    position: static;
-    transform: none;
-    justify-self: end;
   }
 
   .album-cover {

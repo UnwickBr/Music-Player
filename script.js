@@ -7,6 +7,7 @@ const shuffleBtn = document.getElementById('shuffle-btn');
 const volume = document.getElementById('volume');
 const volumeIcon = document.querySelector('.volume-wrap span');
 const glowToggleBtn = document.getElementById('glow-toggle');
+const glowToggleIcon = document.querySelector('.timer-glow-icon');
 const progressTrack = document.getElementById('progress-track');
 const progressFill = document.getElementById('progress-fill');
 const progressThumb = document.getElementById('progress-thumb');
@@ -1018,8 +1019,8 @@ function applyControlIcons() {
     volumeIcon.innerHTML = controlIcons.volume;
   }
 
-  if (glowToggleBtn) {
-    glowToggleBtn.innerHTML = controlIcons.glow;
+  if (glowToggleIcon) {
+    glowToggleIcon.innerHTML = controlIcons.glow;
   }
 }
 
